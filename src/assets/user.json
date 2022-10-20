@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "firstName": "Finland",
+      "lastName": "Helsinki",
+      "email": "email@gmail.com",
+      "userName": "Kmarquez17",
+      "avatar": "12.png"
+    }
+  ]
+}
