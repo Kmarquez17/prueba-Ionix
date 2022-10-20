@@ -7,20 +7,20 @@ export const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
 
   const [user, setUser] = useState({
-    email: "Kevin",
+    email: "",
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setError(false);
 
@@ -31,7 +31,7 @@ export const Login = () => {
       setMessage("Please fill in the required information");
       return;
     }
-    
+
     loginUser(user)
       .then((res) => {
         const { data } = res;
