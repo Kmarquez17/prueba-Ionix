@@ -3,13 +3,14 @@ import ReactPaginate from "react-paginate";
 
 //Interfaces
 import { IUser } from "../interfaces/users";
+import { Avatar } from "./Avatar";
 
 interface IProps {
   data: IUser[];
 }
 
 export const Table: React.FunctionComponent<IProps> = (props: IProps) => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const [currentItems, setCurrentItems] = useState<Array<IUser>>([]);
   const [pageCount, setPageCount] = useState<number>(0);
   const [itemOffset, setItemOffset] = useState<number>(0);
@@ -31,25 +32,28 @@ export const Table: React.FunctionComponent<IProps> = (props: IProps) => {
         <thead className="thead-light">
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Avatar</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="col">Email</th>
             <th scope="col">UserName</th>
-            <th scope="col">Avatar</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentItems.map((data, idx) => {
-            const { id, firstName, lastName, email, userName, avatar } = data;
+            const { id, firstName, lastName, email, userName, } = data;
             return (
               <tr key={`${idx}-${userName}`}>
                 <th scope="row">{id}</th>
+                <td>
+                  <Avatar email={email} width={50}/>
+                </td>
                 <td>{firstName}</td>
                 <td>{lastName}</td>
                 <td>{email}</td>
                 <td>{userName}</td>
-                <td>{avatar}</td>
+
                 <td>
                   <div
                     className="btn-group"

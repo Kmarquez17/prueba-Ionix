@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context";
+import { Avatar } from "./Avatar";
 
 export const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -52,6 +53,9 @@ export const Navbar = () => {
 
         <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
           <ul className="navbar-nav ml-auto">
+            <span>
+              <Avatar email={user?.email} width={40} />
+            </span>
             <span className="nav-item nav-link text-white">
               {user?.firstName} {user?.lastName}
             </span>
