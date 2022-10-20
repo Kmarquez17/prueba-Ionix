@@ -12,7 +12,10 @@ export const Navbar = () => {
     logout();
   };
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{padding:'10px'}}>
+    <nav
+      className="navbar navbar-expand-sm navbar-dark bg-dark"
+      style={{ padding: "10px" }}
+    >
       <Link className="navbar-brand" to="/">
         Ionix-App
       </Link>
@@ -49,12 +52,14 @@ export const Navbar = () => {
 
         <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
           <ul className="navbar-nav ml-auto">
-            {/* <span className="nav-item nav-link text-white">{user?.name}</span> */}
+            <span className="nav-item nav-link text-white">
+              {user?.firstName} {user?.lastName}
+            </span>
             <button
-              className="btn nav-item nav-link"
+              className="btn btn-info nav-item nav-link"
               onClick={() => handleLogout()}
             >
-              Logout
+              <p className="m-0 text-white">Logout</p>
             </button>
           </ul>
         </div>

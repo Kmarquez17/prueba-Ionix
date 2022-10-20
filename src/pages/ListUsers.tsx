@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 
+//Componentes
+import { Table } from "../components/Table";
+
+//Interface
 import { IUser } from "../interfaces/users";
 
-import Table from "../components/Table";
 import {
   getAllusers,
   createUser,
   updateUser,
   removeUser,
 } from "../services/users-http.service";
-
 
 /**
  * Realizar Formulario del login
@@ -79,7 +81,7 @@ export const ListUsers = () => {
 
   if (users.length === 0) return;
 
-  console.log('users',users)
+  console.log("users", users);
 
   return (
     <div className="mt-5">

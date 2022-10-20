@@ -12,9 +12,20 @@ export const initializeAxiosMockAdapter = (instance) => {
   mock.onGet("/users").reply(() => getUsers());
   // mock.onGet(/\/users\/\d+/).reply(config => getCountry(config));
   mock.onPost("/users").reply((config) => addUser(config));
-  mock.onPut(/\/users\/\d+/).reply(config => editUser(config));
-  mock.onDelete(/\/users\/\d+/).reply(config => removeUser(config))
+  mock.onPut(/\/users\/\d+/).reply((config) => editUser(config));
+  mock.onDelete(/\/users\/\d+/).reply((config) => removeUser(config));
+
+  mock.onPost("/login").reply((config) => getLogin(config));
 };
+
+export const getLogin = (config) => {
+  let { email, password } = JSON.parse(config.data);
+  //Se puso un contraseña fictisia para simular error 
+  if (password !== "1234") return [404, []];
+  const user = userList.find((c) => c.email === email) || [];
+  return [200, user];
+};
+
 export const getUsers = () => {
   return [200, userList];
 };

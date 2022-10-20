@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
-export default function Table({ data }) {
+//Interfaces
+import { IUser } from "../interfaces/users";
+
+interface IProps {
+  data: IUser[];
+}
+
+export const Table: React.FunctionComponent<IProps> = (props: IProps) => {
   const itemsPerPage = 5;
-  const [currentItems, setCurrentItems] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState<Array<IUser>>([]);
+  const [pageCount, setPageCount] = useState<number>(0);
+  const [itemOffset, setItemOffset] = useState<number>(0);
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setPageCount(Math.ceil(data.length / itemsPerPage));
-    setCurrentItems(data.slice(itemOffset, endOffset));
-  }, [data, itemOffset, itemsPerPage]);
+    setPageCount(Math.ceil(props.data.length / itemsPerPage));
+    setCurrentItems(props.data.slice(itemOffset, endOffset));
+  }, [props.data, itemOffset, itemsPerPage]);
 
-  const handlePageClick = (evt) => {
-    const newOffset = (evt.selected * itemsPerPage) % data.length;
+  const handlePageClick = (evt: any) => {
+    const newOffset = (evt.selected * itemsPerPage) % props.data.length;
     setItemOffset(newOffset);
   };
 
   return (
     <>
       <table className="table">
-        <thead className="thead-dark">
+        <thead className="thead-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">First name</th>
@@ -105,10 +112,9 @@ export default function Table({ data }) {
             breakLinkClassName="page-link"
             containerClassName="pagination"
             activeClassName="active"
-            renderOnZeroPageCount={null}
           />
         </div>
       )}
     </>
   );
-}
+};
