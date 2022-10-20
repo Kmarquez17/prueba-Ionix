@@ -3,7 +3,24 @@ import React, { useEffect, useState } from "react";
 import { IUser } from "../interfaces/users";
 
 import Table from "../components/Table";
-import { getAllusers, createUser } from "../services/users-http.service";
+import {
+  getAllusers,
+  createUser,
+  updateUser,
+  removeUser,
+} from "../services/users-http.service";
+
+
+/**
+ * Realizar Formulario del login
+ * En modal realizar formulario de agregar y editar
+ * Alertas
+ * Componente que no existe dicha vista
+ * Hacer filtro nombre y apellido
+ * Hacer las pruebas unitarias
+ * Buscar una libreria que crea el avartar por el userName
+ * https://www.mockaroo.com/schemas/new
+ */
 
 export const ListUsers = () => {
   const [users, setUsers] = useState<Array<IUser>>([
@@ -32,7 +49,26 @@ export const ListUsers = () => {
     createUser(data)
       .then((res) => {
         console.log(res);
-        setIsUpdated(!isUpdated)
+        setIsUpdated(!isUpdated);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const edit = (data: IUser) => {
+    data.id = 1;
+    updateUser(data.id, data)
+      .then((res) => {
+        console.log(res);
+        setIsUpdated(!isUpdated);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const remove = (row: number) => {
+    removeUser(row)
+      .then((res) => {
+        console.log(res);
+        setIsUpdated(!isUpdated);
       })
       .catch((err) => console.log(err));
   };
@@ -42,6 +78,8 @@ export const ListUsers = () => {
   }, [isUpdated]);
 
   if (users.length === 0) return;
+
+  console.log('users',users)
 
   return (
     <div className="mt-5">
@@ -53,6 +91,22 @@ export const ListUsers = () => {
         }}
       >
         Add
+      </button>
+
+      <button
+        onClick={() => {
+          edit(data);
+        }}
+      >
+        Edit
+      </button>
+
+      <button
+        onClick={() => {
+          remove(1);
+        }}
+      >
+        Remove
       </button>
     </div>
   );

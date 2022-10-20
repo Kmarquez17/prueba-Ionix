@@ -12,8 +12,8 @@ export const initializeAxiosMockAdapter = (instance) => {
   mock.onGet("/users").reply(() => getUsers());
   // mock.onGet(/\/users\/\d+/).reply(config => getCountry(config));
   mock.onPost("/users").reply((config) => addUser(config));
-  // mock.onPut(/\/users\/\d+/).reply(config => editCountry(config));
-  // mock.onDelete(/\/users\/\d+/).reply(config => removeCountry(config))
+  mock.onPut(/\/users\/\d+/).reply(config => editUser(config));
+  mock.onDelete(/\/users\/\d+/).reply(config => removeUser(config))
 };
 export const getUsers = () => {
   return [200, userList];
