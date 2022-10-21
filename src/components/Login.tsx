@@ -70,7 +70,7 @@ export const Login = () => {
           <input
             type="email"
             id="email"
-            className="fadeIn second"
+            className="fadeIn second formLogin"
             name="email"
             value={email}
             onChange={handleChange}
@@ -79,7 +79,7 @@ export const Login = () => {
           <input
             type="password"
             id="password"
-            className="fadeIn third"
+            className="fadeIn third formLogin"
             name="password"
             value={password}
             onChange={handleChange}
@@ -96,7 +96,7 @@ export const Login = () => {
             </div>
           )}
 
-          <input type="submit" className="fadeIn fourth" value="Log In" />
+          <input type="submit" className="fadeIn fourth"  value="Log In" />
         </form>
       </div>
     </div>

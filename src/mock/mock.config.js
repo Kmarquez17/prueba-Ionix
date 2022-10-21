@@ -10,7 +10,7 @@ export const isMockEnabled = () => {
 export const initializeAxiosMockAdapter = (instance) => {
   const mock = new MockAdapter(instance);
   mock.onGet("/users").reply(() => getUsers());
-  // mock.onGet(/\/users\/\d+/).reply(config => getCountry(config));
+  mock.onGet(/\/users\/\d+/).reply(config => getUser(config));
   mock.onPost("/users").reply((config) => addUser(config));
   mock.onPut(/\/users\/\d+/).reply((config) => editUser(config));
   mock.onDelete(/\/users\/\d+/).reply((config) => removeUser(config));
@@ -32,7 +32,8 @@ export const getUsers = () => {
 
 export const getUser = (config) => {
   const id = extractIdPathParamFromUrl(config);
-  const user = userList.find((c) => c.id === id);
+  
+  const user = userList.find((c) => c.id === Number(id));
   return [200, user];
 };
 
@@ -48,7 +49,7 @@ export const addUser = (config) => {
 
 export const editUser = (config) => {
   const id = extractIdPathParamFromUrl(config);
-  const userIndex = userList.findIndex((c) => c.id === id);
+  const userIndex = userList.findIndex((c) => c.id === Number(id));
   const user = JSON.parse(config.data);
   userList[userIndex] = user;
   return [200, user];
@@ -56,6 +57,6 @@ export const editUser = (config) => {
 
 export const removeUser = (config) => {
   const id = extractIdPathParamFromUrl(config);
-  userList = userList.filter((c) => c.id !== id);
+  userList = userList.filter((c) => c.id !== Number(id));
   return [204, null];
 };

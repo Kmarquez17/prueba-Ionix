@@ -17,7 +17,7 @@ export const authReducer = (state: UserState, action: MapAction): UserState => {
         ...state,
         logged: false,
         user: {
-          id: "",
+          id: 0,
           firstName: "",
           email: "",
           lastName: "",

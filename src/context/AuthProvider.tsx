@@ -11,7 +11,7 @@ export interface UserState {
 const INITIAL_STATE: UserState = {
   logged: false,
   user: {
-    id: "",
+    id: 0,
     firstName: "",
     email: "",
     lastName: "",

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 //Componentes
 import { Table } from "../components/Table";
+import { Modal } from "../components/Modal";
+import { FromUser } from "../components/FromUser";
 
 //Interface
 import { IUser } from "../interfaces/users";
@@ -14,102 +17,116 @@ import {
 } from "../services/users-http.service";
 
 /**
- * Realizar Formulario del login
- * En modal realizar formulario de agregar y editar
  * Alertas
  * Componente que no existe dicha vista
  * Hacer filtro nombre y apellido
  * Hacer las pruebas unitarias
- * Buscar una libreria que crea el avartar por el userName
- * https://www.mockaroo.com/schemas/new
  */
 
 export const ListUsers = () => {
-  const [users, setUsers] = useState<Array<IUser>>([
-    // {
-    //   id: "",
-    //   firstName: "",
-    //   lastName: "",
-    //   email: "",
-    //   userName: "",
-    //   avatar: "",
-    // },
-  ]);
+  const [users, setUsers] = useState<Array<IUser>>([]);
 
+  const [show, setShow] = useState<boolean>(false);
   const [isUpdated, setIsUpdated] = useState<boolean>(true);
+  const [isAddOrEdit, setIsAddOrEdit] = useState<number>(0);
 
-  let data = {
-    id: "100",
-    firstName: "Kevin",
-    lastName: "Marquez",
-    email: "marquezkrodriguez",
-    userName: "kmarquez",
-    avatar: "dasda.png",
-  };
-
-  const add = (data: IUser) => {
-    createUser(data)
-      .then((res) => {
-        console.log(res);
-        setIsUpdated(!isUpdated);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const edit = (data: IUser) => {
-    data.id = 1;
-    updateUser(data.id, data)
-      .then((res) => {
-        console.log(res);
-        setIsUpdated(!isUpdated);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const remove = (row: number) => {
-    removeUser(row)
-      .then((res) => {
-        console.log(res);
-        setIsUpdated(!isUpdated);
-      })
-      .catch((err) => console.log(err));
-  };
+  const [userID, setUserID] = useState<number>(0);
 
   useEffect(() => {
     getAllusers().then((res) => setUsers(res.data));
   }, [isUpdated]);
 
-  if (users.length === 0) return;
+  const handleAlertMsg = (msg: string) => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: msg,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
 
-  console.log("users", users);
+  const handleIsAddOrEdit = (id: number) => {
+    setUserID(id);
+    setIsAddOrEdit(id === -1 ? 1 : 2);
+    handleShowModal(true);
+  };
+
+  const handleShowModal = (show: boolean) => {
+    setShow(show);
+  };
+  const handleAddUser = (data: IUser) => {
+    data.id = users.length + 1;
+    createUser(data)
+      .then((res) => {
+        handleAlertMsg("User successfully added!");
+        setIsUpdated(!isUpdated);
+        setShow(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleEditUser = (id: number, data: IUser) => {
+    updateUser(id, data)
+      .then((res) => {
+        handleAlertMsg("User edited successfully!");
+        setIsUpdated(!isUpdated);
+        setShow(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleRemove = (id: number) => {
+    Swal.fire({
+      title: "Do you want to remove this user?",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeUser(id)
+          .then((res) => {
+            handleAlertMsg("User deleted successfully!");
+            setIsUpdated(!isUpdated);
+          })
+          .catch((err) => console.log(err));
+      }
+    });
+  };
+
+  if (users.length === 0) return;
 
   return (
     <div className="mt-5">
       <h3>USER LIST</h3>
-      <Table data={users} />
+
       <button
+        type="button"
+        className="btn btn-primary"
         onClick={() => {
-          add(data);
+          handleIsAddOrEdit(-1);
         }}
       >
         Add
       </button>
 
-      <button
-        onClick={() => {
-          edit(data);
-        }}
-      >
-        Edit
-      </button>
+      <Table
+        data={users}
+        onEdit={handleIsAddOrEdit}
+        handleRemove={handleRemove}
+      />
 
-      <button
-        onClick={() => {
-          remove(1);
-        }}
+      <Modal
+        title={isAddOrEdit === 1 ? "Add User" : "Edit User"}
+        show={show}
+        handleShowModal={handleShowModal}
       >
-        Remove
-      </button>
+        <FromUser
+          userID={userID}
+          isAddOrEdit={isAddOrEdit === 1 ? false : true}
+          handleAddUser={handleAddUser}
+          handleEditUser={handleEditUser}
+        />
+      </Modal>
     </div>
   );
 };
