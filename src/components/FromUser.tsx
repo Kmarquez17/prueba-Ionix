@@ -29,7 +29,7 @@ export const FromUser: React.FunctionComponent<IProps> = (props: IProps) => {
     } else {
       setUser(initialState);
     }
-  }, [props.isAddOrEdit]);
+  }, [props.isAddOrEdit, props.userID]);
 
   const handleGetUser = (id: number) => {
     getUser(id)

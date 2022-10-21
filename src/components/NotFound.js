@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const NotFound = () => {
   const navigate = useNavigate();
@@ -17,8 +17,7 @@ export const NotFound = () => {
         <p className="card-text">
           Contact support to verify why this page is not displayed{" "}
         </p>
-        <a
-          href="#"
+        <NavLink
           className="btn btn-primary"
           onClick={() => {
             navigate("/users", {
@@ -27,7 +26,7 @@ export const NotFound = () => {
           }}
         >
           Back to the main page
-        </a>
+        </NavLink>
       </div>
     </div>
   );

@@ -75,23 +75,25 @@ export const Navbar = () => {
                 aria-expanded="false"
               ></button>
               <div className="dropdown-menu">
-                <a
-                  className="dropdown-item"
-                  href="#"
+                <NavLink
+                  className={({ isActive }) =>
+                    "nav-item nav-link " + (isActive ? "active" : "")
+                  }
                   onClick={() => {
                     setShow(true);
                   }}
                 >
-                  <p className="m-0">Profile</p>
-                </a>
+                  <p className="m-0 text-black">Profile</p>
+                </NavLink>
 
-                <a
-                  className="dropdown-item"
-                  href="#"
-                  onClick={() => handleLogout()}
+                <NavLink
+                  className={({ isActive }) =>
+                    "nav-item nav-link " + (isActive ? "active" : "")
+                  }
+                  onClick={handleLogout}
                 >
-                  <p className="m-0">Logout</p>
-                </a>
+                  <p className="m-0 text-black">Logout</p>
+                </NavLink>
               </div>
             </div>
 
