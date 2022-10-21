@@ -96,7 +96,7 @@ export const Login = () => {
             </div>
           )}
 
-          <input type="submit" className="fadeIn fourth"  value="Log In" />
+          <input type="submit" className="fadeIn fourth" value="Log In" />
         </form>
       </div>
     </div>

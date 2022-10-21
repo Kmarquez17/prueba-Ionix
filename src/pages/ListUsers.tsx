@@ -17,9 +17,7 @@ import {
 } from "../services/users-http.service";
 
 /**
- * Alertas
- * Componente que no existe dicha vista
- * Hacer filtro nombre y apellido
+ * Hacer filstros
  * Hacer las pruebas unitarias
  */
 
@@ -27,6 +25,7 @@ export const ListUsers = () => {
   const [users, setUsers] = useState<Array<IUser>>([]);
 
   const [show, setShow] = useState<boolean>(false);
+
   const [isUpdated, setIsUpdated] = useState<boolean>(true);
   const [isAddOrEdit, setIsAddOrEdit] = useState<number>(0);
 
@@ -46,15 +45,16 @@ export const ListUsers = () => {
     });
   };
 
+  const handleShowModal = (show: boolean) => {
+    setShow(show);
+  };
+
   const handleIsAddOrEdit = (id: number) => {
     setUserID(id);
     setIsAddOrEdit(id === -1 ? 1 : 2);
     handleShowModal(true);
   };
 
-  const handleShowModal = (show: boolean) => {
-    setShow(show);
-  };
   const handleAddUser = (data: IUser) => {
     data.id = users.length + 1;
     createUser(data)

@@ -1,13 +1,35 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { AuthContext } from "../context";
+import { updateUser } from "../services/users-http.service";
 import { Avatar } from "./Avatar";
+import { FromUser } from "./FromUser";
+import { Modal } from "./Modal";
 
 export const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { login, user, logout } = useContext(AuthContext);
+  const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
+
+  const handleEditUser = (id, data) => {
+    updateUser(id, data)
+      .then((res) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Updated user!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        login(data);
+        setShow(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const handleLogout = () => {
     navigate("/login", { replace: true });
     logout();
@@ -41,32 +63,61 @@ export const Navbar = () => {
           >
             Users
           </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              "nav-item nav-link " + (isActive ? "active" : "")
-            }
-            to="/profile"
-          >
-            Profile
-          </NavLink>
         </div>
 
         <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
           <ul className="navbar-nav ml-auto">
-            <span>
-              <Avatar email={user?.email} width={40} />
-            </span>
+            <div className="btn-group">
+              <button
+                type="button"
+                className="pb-0 btn btn-primary dropdown-toggle"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              ></button>
+              <div className="dropdown-menu">
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                >
+                  <p className="m-0">Profile</p>
+                </a>
+
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  onClick={() => handleLogout()}
+                >
+                  <p className="m-0">Logout</p>
+                </a>
+              </div>
+            </div>
+
             <span className="nav-item nav-link text-white">
               {user?.firstName} {user?.lastName}
             </span>
-            <button
-              className="btn btn-info nav-item nav-link"
-              onClick={() => handleLogout()}
-            >
-              <p className="m-0 text-white">Logout</p>
-            </button>
+
+            <span>
+              <Avatar email={user?.email} width={40} />
+            </span>
           </ul>
         </div>
+        <Modal
+          title={"Edit User"}
+          show={show}
+          handleShowModal={(e) => {
+            setShow(e);
+          }}
+        >
+          <FromUser
+            userID={user?.id}
+            isAddOrEdit={true}
+            handleAddUser={() => {}}
+            handleEditUser={handleEditUser}
+          />
+        </Modal>
       </div>
     </nav>
   );
