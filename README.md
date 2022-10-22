@@ -21,3 +21,7 @@ First of all, to run this app, it is necessary as a fundamental base to have ins
 * npm install
 * npm run build:dev (Desarrollo)
 * npm run build:prod (Producción)
+
+## Important notes
+
+To enter the app in the LOGIN, the emails that are in the src/assets/user.json folder are valid to be able to enter, the password for all is 1234, this since the JSON provided as proof did not have the option of password so pretend that if it's different than 1234 it throws an error.
